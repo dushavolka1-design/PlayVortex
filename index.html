@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>BlumSale Arcade · Адаптивная версия</title>
+    <title>PlayVortex · Игровая платформа</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -45,16 +45,9 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 5px #ffb347; }
-            50% { text-shadow: 0 0 15px #ffb347, 0 0 20px #ff7f50; }
-            100% { text-shadow: 0 0 5px #ffb347; }
-        }
-
         .float { animation: float 3s ease-in-out infinite; }
         .pulse { animation: pulse 2s ease-in-out infinite; }
         .glow { animation: glow 3s ease-in-out infinite; }
-        .text-glow { animation: textGlow 2s ease-in-out infinite; }
 
         /* ===== ШАПКА ===== */
         .header {
@@ -250,13 +243,6 @@
             margin-bottom: 10px;
         }
 
-        .news-meta {
-            display: flex;
-            gap: 15px;
-            color: #8088a0;
-            font-size: 0.8rem;
-        }
-
         /* ===== КАРТОЧКИ ИГР ===== */
         .game-card {
             background: #1f2a3a;
@@ -283,11 +269,6 @@
             margin-bottom: 5px;
         }
 
-        .game-card p {
-            font-size: 0.8rem;
-            color: #a0a8c0;
-        }
-
         .game-stats {
             display: flex;
             justify-content: center;
@@ -311,6 +292,7 @@
             border-radius: 10px;
             background: #0a0c14;
             margin: 0 auto;
+            display: block;
         }
 
         .score {
@@ -360,9 +342,8 @@
         /* ===== ПРОФИЛЬ ===== */
         .profile-sidebar {
             position: fixed;
-            top: auto;
-            bottom: 20px;
             right: 20px;
+            top: 100px;
             width: 250px;
             z-index: 90;
         }
@@ -407,24 +388,6 @@
             margin-bottom: 10px;
         }
 
-        .profile-stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 15px 0;
-        }
-
-        .stat-value {
-            font-size: 1.2rem;
-            color: #ffb347;
-            font-weight: 700;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #a0a8c0;
-        }
-
         /* ===== АДМИН ПАНЕЛЬ ===== */
         .admin-panel {
             border-color: #dc3545;
@@ -466,15 +429,6 @@
             margin-bottom: 10px;
         }
 
-        .upload-area p {
-            font-size: 1rem;
-        }
-
-        .upload-area small {
-            font-size: 0.8rem;
-            color: #a0a8c0;
-        }
-
         .file-info {
             background: #1f2a3a;
             border-radius: 15px;
@@ -499,91 +453,6 @@
             border: 2px solid #ffb347;
             border-radius: 50px;
             color: white;
-            font-size: 0.95rem;
-        }
-
-        .upload-form textarea {
-            border-radius: 15px;
-            min-height: 80px;
-        }
-
-        /* ===== РЕЙТИНГИ ===== */
-        .rating-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        .rating-table tr {
-            border-bottom: 1px solid #2a3440;
-        }
-
-        .rating-table td {
-            padding: 10px;
-        }
-
-        .rank-1 { color: gold; }
-        .rank-2 { color: silver; }
-        .rank-3 { color: #cd7f32; }
-
-        /* ===== МОДАЛКА ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #151e2c;
-            border-radius: 30px;
-            padding: 30px 20px;
-            max-width: 400px;
-            width: 100%;
-            border: 3px solid #ffb347;
-        }
-
-        .modal-content h2 {
-            color: #ffb347;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .modal-input,
-        .modal-select {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 8px 0;
-            background: #1f2a3a;
-            border: 2px solid #ffb347;
-            border-radius: 50px;
-            color: white;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            color: #ffb347;
-            cursor: pointer;
         }
 
         /* ===== ФУТЕР ===== */
@@ -606,7 +475,6 @@
         .footer-section h4 {
             color: #ffb347;
             margin-bottom: 15px;
-            font-size: 1.1rem;
         }
 
         .footer-section p {
@@ -621,6 +489,111 @@
             color: #ffb347;
         }
 
+        /* ===== МОДАЛЬНОЕ ОКНО (ПО ЦЕНТРУ) ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #151e2c;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            border: 3px solid #ffb347;
+            animation: slideInUp 0.3s ease;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .modal-content h2 {
+            color: #ffb347;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            background: #1f2a3a;
+            border: 2px solid #ffb347;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #ff7f50;
+            box-shadow: 0 0 10px rgba(255, 180, 70, 0.5);
+        }
+
+        .modal-select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            background: #1f2a3a;
+            border: 2px solid #ffb347;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .modal-select option {
+            background: #1f2a3a;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: #ffb347;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 180, 70, 0.2);
+            transform: rotate(90deg);
+        }
+
         /* ===== УВЕДОМЛЕНИЯ ===== */
         .notification {
             position: fixed;
@@ -628,11 +601,12 @@
             right: 20px;
             background: #ffb347;
             color: #0a0c14;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border-radius: 50px;
-            font-size: 0.9rem;
             z-index: 2000;
             animation: slideInUp 0.3s;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 180, 70, 0.3);
         }
 
         /* ===== СТРАНИЦЫ ===== */
@@ -649,8 +623,8 @@
     <!-- Шапка -->
     <div class="header">
         <div class="logo" onclick="navigateTo('home')">
-            <i class="fas fa-chess-board"></i>
-            <h1>BlumSale</h1>
+            <i class="fas fa-gamepad"></i>
+            <h1>PlayVortex</h1>
         </div>
         <div class="nav">
             <a onclick="navigateTo('home')" class="nav-link active" data-page="home">Главная</a>
@@ -704,12 +678,12 @@
             <div class="home-grid">
                 <div class="panel">
                     <h2 class="panel-title"><i class="fas fa-newspaper"></i> Новости</h2>
-                    <div class="news-item" onclick="showNotification('Новость 1')">
+                    <div class="news-item" onclick="showNotification('📰 Новость 1')">
                         <div class="news-date">14 февраля 2026</div>
                         <div class="news-title">🎮 Фестиваль инди-игр</div>
                         <div class="news-preview">200+ новых игр, демо-версии</div>
                     </div>
-                    <div class="news-item" onclick="showNotification('Новость 2')">
+                    <div class="news-item" onclick="showNotification('📰 Новость 2')">
                         <div class="news-date">13 февраля 2026</div>
                         <div class="news-title">🚀 Обновление StarPath</div>
                         <div class="news-preview">Новая звездная система</div>
@@ -742,7 +716,8 @@
                             <canvas id="snakeCanvas" width="400" height="400"></canvas>
                             <div class="score">Счет: <span id="snakeScore">0</span></div>
                             <div class="game-controls">
-                                <button class="btn btn-primary" onclick="startSnake()">Новая</button>
+                                <button class="btn btn-primary" onclick="startSnake()">Новая игра</button>
+                                <button class="btn" onclick="showNotification('Управление стрелками')">Управление</button>
                             </div>
                         </div>
                     </div>
@@ -753,6 +728,7 @@
                             <div class="clicker-button" onclick="clickGame()"></div>
                             <div class="game-controls">
                                 <button class="btn btn-primary" onclick="resetClicker()">Сброс</button>
+                                <button class="btn" onclick="showNotification('Кликай по кнопке')">Инфо</button>
                             </div>
                         </div>
                     </div>
@@ -769,18 +745,6 @@
             </div>
             <div class="profile-name" id="profileName">Гость</div>
             <div class="profile-role" id="profileRole">👤 Пользователь</div>
-            <div id="profileStats" style="display: none;">
-                <div class="profile-stats">
-                    <div>
-                        <div class="stat-value" id="profileGames">0</div>
-                        <div class="stat-label">Игр</div>
-                    </div>
-                    <div>
-                        <div class="stat-value" id="profileLikes">0</div>
-                        <div class="stat-label">Лайков</div>
-                    </div>
-                </div>
-            </div>
             <div id="profileAuth"></div>
         </div>
     </div>
@@ -800,19 +764,22 @@
         </div>
     </footer>
 
-    <!-- Модалка -->
+    <!-- МОДАЛЬНОЕ ОКНО (ПО ЦЕНТРУ) -->
     <div class="modal" id="authModal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
             <h2 id="modalTitle">Вход</h2>
-            <input type="text" class="modal-input" id="modalName" placeholder="Имя">
+            
+            <input type="text" class="modal-input" id="modalName" placeholder="Имя пользователя">
             <input type="password" class="modal-input" id="modalPass" placeholder="Пароль">
+            
             <div id="roleSelect" style="display: none;">
                 <select class="modal-select" id="modalRole">
                     <option value="player">Игрок</option>
                     <option value="developer">Разработчик</option>
                 </select>
             </div>
+            
             <div class="modal-buttons">
                 <button class="btn" onclick="closeModal()">Отмена</button>
                 <button class="btn btn-primary" id="modalAction" onclick="handleAuth()">Войти</button>
@@ -828,10 +795,37 @@
         let snakeInterval = null;
         let clickCount = 0;
 
-        let games = JSON.parse(localStorage.getItem('blumSale_games')) || [
-            { id: 1, title: 'CyberPulse', genre: 'action', author: 'admin', likes: 128, plays: 2300, status: 'approved' },
-            { id: 2, title: 'Dragon\'s Quest', genre: 'rpg', author: 'dev', likes: 89, plays: 1800, status: 'approved' },
-            { id: 3, title: 'Space Rangers', genre: 'strategy', author: 'new_dev', likes: 45, plays: 900, status: 'pending' }
+        let games = JSON.parse(localStorage.getItem('playVortex_games')) || [
+            { 
+                id: 1, 
+                title: 'CyberPulse', 
+                genre: 'action', 
+                author: 'admin', 
+                likes: 128, 
+                plays: 2300, 
+                status: 'approved',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#ffb347;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🎮 CyberPulse</h1></body></html>'
+            },
+            { 
+                id: 2, 
+                title: 'Dragon\'s Quest', 
+                genre: 'rpg', 
+                author: 'dev', 
+                likes: 89, 
+                plays: 1800, 
+                status: 'approved',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#4a6fa5;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🐉 Dragon\'s Quest</h1></body></html>'
+            },
+            { 
+                id: 3, 
+                title: 'Space Rangers', 
+                genre: 'strategy', 
+                author: 'new_dev', 
+                likes: 45, 
+                plays: 900, 
+                status: 'pending',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#28a745;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🚀 Space Rangers</h1></body></html>'
+            }
         ];
 
         // ========== ЗМЕЙКА ==========
@@ -850,27 +844,45 @@
             if (!snake.canvas) return;
             snake.ctx = snake.canvas.getContext('2d');
             
-            document.addEventListener('keydown', (e) => {
-                if (snake.gameOver) return;
-                if (e.key.startsWith('Arrow')) e.preventDefault();
-                
-                if (e.key === 'ArrowUp' && snake.direction.y === 0) snake.direction = {x: 0, y: -1};
-                if (e.key === 'ArrowDown' && snake.direction.y === 0) snake.direction = {x: 0, y: 1};
-                if (e.key === 'ArrowLeft' && snake.direction.x === 0) snake.direction = {x: -1, y: 0};
-                if (e.key === 'ArrowRight' && snake.direction.x === 0) snake.direction = {x: 1, y: 0};
-            });
+            document.removeEventListener('keydown', snakeKeyHandler);
+            document.addEventListener('keydown', snakeKeyHandler);
+            
             startSnake();
+        }
+
+        function snakeKeyHandler(e) {
+            if (!snake || snake.gameOver) return;
+            if (e.key.startsWith('Arrow')) e.preventDefault();
+            
+            if (e.key === 'ArrowUp' && snake.direction.y === 0) {
+                snake.direction = {x: 0, y: -1};
+            } else if (e.key === 'ArrowDown' && snake.direction.y === 0) {
+                snake.direction = {x: 0, y: 1};
+            } else if (e.key === 'ArrowLeft' && snake.direction.x === 0) {
+                snake.direction = {x: -1, y: 0};
+            } else if (e.key === 'ArrowRight' && snake.direction.x === 0) {
+                snake.direction = {x: 1, y: 0};
+            }
         }
 
         function startSnake() {
             if (snakeInterval) clearInterval(snakeInterval);
+            
             snake.snake = [{x: 10, y: 10}];
             snake.direction = {x: 0, y: 0};
             snake.score = 0;
             snake.gameOver = false;
             document.getElementById('snakeScore').textContent = '0';
+            
             generateFood();
-            snakeInterval = setInterval(updateSnake, 150);
+            drawSnake();
+            
+            snakeInterval = setInterval(() => {
+                if (!snake.gameOver) {
+                    updateSnake();
+                    drawSnake();
+                }
+            }, 150);
         }
 
         function generateFood() {
@@ -883,7 +895,7 @@
         }
 
         function updateSnake() {
-            if (snake.gameOver) return;
+            if (snake.direction.x === 0 && snake.direction.y === 0) return;
             
             const head = {
                 x: snake.snake[0].x + snake.direction.x,
@@ -891,11 +903,17 @@
             };
             
             if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
-                gameOver(); return;
+                snake.gameOver = true;
+                clearInterval(snakeInterval);
+                showNotification('💀 Игра окончена! Счет: ' + snake.score);
+                return;
             }
             
             if (snake.snake.some(s => s.x === head.x && s.y === head.y)) {
-                gameOver(); return;
+                snake.gameOver = true;
+                clearInterval(snakeInterval);
+                showNotification('💀 Игра окончена! Счет: ' + snake.score);
+                return;
             }
             
             snake.snake.unshift(head);
@@ -907,19 +925,26 @@
             } else {
                 snake.snake.pop();
             }
-            drawSnake();
-        }
-
-        function gameOver() {
-            snake.gameOver = true;
-            clearInterval(snakeInterval);
-            showNotification('💀 Игра окончена! Счет: ' + snake.score);
         }
 
         function drawSnake() {
             if (!snake.ctx) return;
+            
             snake.ctx.fillStyle = '#0a0c14';
             snake.ctx.fillRect(0, 0, 400, 400);
+            
+            snake.ctx.strokeStyle = '#1f2a3a';
+            for (let i = 0; i <= 20; i++) {
+                snake.ctx.beginPath();
+                snake.ctx.moveTo(i * 20, 0);
+                snake.ctx.lineTo(i * 20, 400);
+                snake.ctx.stroke();
+                
+                snake.ctx.beginPath();
+                snake.ctx.moveTo(0, i * 20);
+                snake.ctx.lineTo(400, i * 20);
+                snake.ctx.stroke();
+            }
             
             snake.snake.forEach((segment, i) => {
                 snake.ctx.fillStyle = i === 0 ? '#ffb347' : '#ff9f4d';
@@ -950,6 +975,34 @@
             showNotification('🔄 Счет сброшен');
         }
 
+        // ========== ЗАПУСК ИГРЫ ==========
+        function playGame(id) {
+            const game = games.find(g => g.id === id);
+            if (!game) return;
+
+            if (!currentUser) {
+                showNotification('🔒 Войдите, чтобы играть');
+                openModal('login');
+                return;
+            }
+
+            if (game.status === 'pending' && currentUser.role !== 'moderator') {
+                showNotification('⏳ Игра на модерации');
+                return;
+            }
+
+            game.plays++;
+            localStorage.setItem('playVortex_games', JSON.stringify(games));
+
+            if (game.fileContent) {
+                const gameWindow = window.open('', '_blank');
+                gameWindow.document.write(game.fileContent);
+                gameWindow.document.title = game.title;
+            } else {
+                showNotification('🎮 Запуск: ' + game.title);
+            }
+        }
+
         // ========== НАВИГАЦИЯ ==========
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -960,7 +1013,9 @@
                 if (link.dataset.page === page) link.classList.add('active');
             });
             
-            if (page === 'games') setTimeout(initSnake, 100);
+            if (page === 'games') {
+                setTimeout(initSnake, 100);
+            }
         }
 
         // ========== ОТОБРАЖЕНИЕ ==========
@@ -971,9 +1026,6 @@
                 <div class="game-card" onclick="playGame(${game.id})">
                     <div class="game-icon"><i class="fas fa-${game.genre === 'action' ? 'fist-raised' : 'dragon'}"></i></div>
                     <h4>${game.title}</h4>
-                    <div class="game-stats">
-                        <span><i class="fas fa-heart"></i> ${game.likes}</span>
-                    </div>
                 </div>
             `).join('');
             
@@ -988,13 +1040,14 @@
             document.getElementById('moderationList').innerHTML = games.map(game => `
                 <div class="mod-card">
                     <h4>${game.title}</h4>
-                    <p>Статус: ${game.status === 'pending' ? '⏳' : '✅'}</p>
+                    <p>Статус: ${game.status}</p>
                     <div class="mod-actions">
                         ${game.status === 'pending' ? 
                             `<button class="btn btn-success btn-small" onclick="approveGame(${game.id})">✅</button>
                              <button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">❌</button>` : 
                             `<button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">🗑️</button>`
                         }
+                        <button class="btn btn-primary btn-small" onclick="playGame(${game.id})">🎮</button>
                     </div>
                 </div>
             `).join('');
@@ -1004,7 +1057,7 @@
             const game = games.find(g => g.id === id);
             if (game) {
                 game.status = 'approved';
-                localStorage.setItem('blumSale_games', JSON.stringify(games));
+                localStorage.setItem('playVortex_games', JSON.stringify(games));
                 renderAll();
                 showNotification('✅ Игра опубликована');
             }
@@ -1012,18 +1065,9 @@
 
         function rejectGame(id) {
             games = games.filter(g => g.id !== id);
-            localStorage.setItem('blumSale_games', JSON.stringify(games));
+            localStorage.setItem('playVortex_games', JSON.stringify(games));
             renderAll();
             showNotification('🗑️ Игра удалена');
-        }
-
-        function playGame(id) {
-            if (!currentUser) {
-                showNotification('🔒 Войдите, чтобы играть');
-                openModal('login');
-                return;
-            }
-            showNotification('🎮 Запуск игры');
         }
 
         // ========== ЗАГРУЗКА ==========
@@ -1052,17 +1096,64 @@
                     showNotification('❌ Только разработчики могут загружать игры');
                     return;
                 }
-                showNotification('✅ Игра отправлена на модерацию');
+
+                const title = document.getElementById('gameTitle').value;
+                const desc = document.getElementById('gameDesc').value;
+
+                if (!title || !desc || !selectedFile) {
+                    showNotification('❌ Заполните все поля');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const newGame = {
+                        id: Date.now(),
+                        title,
+                        desc,
+                        genre: document.getElementById('gameGenre').value,
+                        fileContent: e.target.result,
+                        author: currentUser.name,
+                        likes: 0,
+                        plays: 0,
+                        status: 'pending'
+                    };
+
+                    games.push(newGame);
+                    localStorage.setItem('playVortex_games', JSON.stringify(games));
+                    
+                    document.getElementById('gameTitle').value = '';
+                    document.getElementById('gameDesc').value = '';
+                    document.getElementById('fileInfo').classList.remove('active');
+                    selectedFile = null;
+                    uploadBtn.disabled = true;
+                    
+                    showNotification('✅ Игра отправлена на модерацию');
+                    renderAll();
+                };
+                reader.readAsText(selectedFile);
             });
         }
 
         // ========== АВТОРИЗАЦИЯ ==========
         function openModal(mode) {
             modalMode = mode;
-            document.getElementById('modalTitle').textContent = mode === 'login' ? 'Вход' : 'Регистрация';
-            document.getElementById('modalAction').textContent = mode === 'login' ? 'Войти' : 'Создать';
-            document.getElementById('roleSelect').style.display = mode === 'login' ? 'none' : 'block';
-            document.getElementById('authModal').classList.add('active');
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('modalTitle');
+            const actionBtn = document.getElementById('modalAction');
+            const roleSelect = document.getElementById('roleSelect');
+            
+            if (mode === 'login') {
+                title.textContent = 'Вход';
+                actionBtn.textContent = 'Войти';
+                roleSelect.style.display = 'none';
+            } else {
+                title.textContent = 'Регистрация';
+                actionBtn.textContent = 'Создать аккаунт';
+                roleSelect.style.display = 'block';
+            }
+            
+            modal.classList.add('active');
         }
 
         function closeModal() {
@@ -1087,7 +1178,7 @@
                 currentUser = { name, role };
             }
 
-            localStorage.setItem('blumSale_user', JSON.stringify(currentUser));
+            localStorage.setItem('playVortex_user', JSON.stringify(currentUser));
             closeModal();
             updateUI();
             showNotification(`✅ Добро пожаловать, ${currentUser.name}!`);
@@ -1095,7 +1186,7 @@
 
         function logout() {
             currentUser = null;
-            localStorage.removeItem('blumSale_user');
+            localStorage.removeItem('playVortex_user');
             updateUI();
             showNotification('👋 До свидания!');
         }
@@ -1112,14 +1203,8 @@
             document.getElementById('profileRole').textContent = currentUser?.role === 'moderator' ? '🛡️ Модератор' : 
                 currentUser?.role === 'developer' ? '👨‍💻 Разработчик' : '👤 Игрок';
 
-            document.getElementById('profileStats').style.display = currentUser ? 'block' : 'none';
             document.getElementById('adminPanel').style.display = currentUser?.role === 'moderator' ? 'block' : 'none';
             document.getElementById('developerPanel').style.display = currentUser?.role === 'developer' ? 'block' : 'none';
-
-            if (currentUser) {
-                document.getElementById('profileGames').textContent = games.filter(g => g.author === currentUser.name).length;
-                document.getElementById('profileLikes').textContent = '12';
-            }
 
             document.getElementById('profileAuth').innerHTML = currentUser ?
                 `<button class="btn btn-small" style="width:100%;" onclick="logout()">Выйти</button>` :
@@ -1144,7 +1229,7 @@
         updateUI();
         renderAll();
         setupFileUpload();
-        initSnake();
+        setTimeout(initSnake, 100);
     </script>
 </body>
 </html>
