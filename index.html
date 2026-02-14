@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlumSale Arcade · Загрузка игр</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #0a0c14;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ========== АНИМАЦИИ ========== */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #ffb347; }
+            50% { box-shadow: 0 0 20px #ffb347, 0 0 30px #ff7f50; }
+            100% { box-shadow: 0 0 5px #ffb347; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px #ffb347; }
+            50% { text-shadow: 0 0 20px #ffb347, 0 0 30px #ff7f50; }
+            100% { text-shadow: 0 0 5px #ffb347; }
+        }
+
+        .float { animation: float 3s ease-in-out infinite; }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        .glow { animation: glow 3s ease-in-out infinite; }
+        .rotate { animation: rotate 10s linear infinite; }
+        .bounce { animation: bounce 2s ease infinite; }
+        .text-glow { animation: textGlow 2s ease-in-out infinite; }
+
+        /* Шапка с анимацией */
+        .header {
+            background: #151e2c;
+            border-bottom: 3px solid #ffb347;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideInUp 0.5s ease;
+            box-shadow: 0 5px 20px rgba(255, 180, 70, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logo:hover i {
+            animation: rotate 1s ease;
+            color: #ff7f50;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #ffb347;
+            transition: 0.3s;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ffb347, #ff7f50, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffb347;
+            transition: 0.3s;
+        }
+
+        .nav a:hover::after,
+        .nav a.active::after {
+            width: 100%;
+        }
+
+        .nav a:hover {
+            color: #ffb347;
+            transform: translateY(-2px);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 25px;
+            border-radius: 50px;
+            border: 2px solid #ffb347;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 180, 70, 0.3);
+            transform: translate(-50%, -50%);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            background: #ffb347;
+            color: #0a0c14;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 180, 70, 0.4);
+        }
+
+        .btn-primary {
+            background: #ffb347;
+            color: #0a0c14;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-success {
+            background: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #000;
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            width: 100%;
+        }
+
+        /* Панели с анимацией */
+        .panel {
+            background: #151e2c;
+            border-radius: 30px;
+            padding: 30px;
+            border: 2px solid #ffb347;
+            height: fit-content;
+            animation: slideInUp 0.5s ease;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,180,70,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 180, 70, 0.2);
+        }
+
+        .panel-title {
+            color: #ffb347;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ffb347;
+            padding-bottom: 10px;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        /* Админ панель */
+        .admin-panel {
+            background: #2a1a1a;
+            border: 3px solid #dc3545;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .admin-panel .panel-title {
+            color: #ff6b6b;
+            border-bottom-color: #dc3545;
+        }
+
+        /* Панель разработчика */
+        .developer-panel {
+            border: 3px solid #4a6fa5;
+        }
+
+        .developer-panel .panel-title {
+            color: #4a6fa5;
+            border-bottom-color: #4a6fa5;
+        }
+
+        /* Новости с анимацией */
+        .news-item {
+            background: #1f2a3a;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffb347;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: slideInLeft 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,180,70,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .news-item:hover::before {
+            left: 100%;
+        }
+
+        .news-item:hover {
+            transform: translateX(10px) scale(1.02);
+            background: #253040;
+            box-shadow: 0 5px 20px rgba(255, 180, 70, 0.2);
+        }
+
+        .news-date {
+            color: #ffb347;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .news-preview {
+            color: #a0a8c0;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 20px;
+            color: #8088a0;
+        }
+
+        .news-meta i {
+            color: #ffb347;
+            margin-right: 5px;
+        }
+
+        /* Карточки игр */
+        .game-card {
+            background: #1f2a3a;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            animation: slideInRight 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border: 2px solid #ffb347;
+            box-shadow: 0 10px 30px rgba(255, 180, 70, 0.3);
+        }
+
+        .game-card:hover .game-icon {
+            animation: bounce 1s ease;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            color: #ffb347;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+            color: #a0a8c0;
+            font-size: 0.9rem;
+        }
+
+        .game-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .status-approved {
+            background: #28a745;
+        }
+
+        /* Загрузка файлов */
+        .upload-area {
+            background: #1f2a3a;
+            border: 3px dashed #4a6fa5;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .upload-area:hover {
+            background: #253040;
+            border-color: #ffb347;
+            transform: scale(1.02);
+        }
+
+        .upload-area i {
+            font-size: 4rem;
+            color: #4a6fa5;
+            margin-bottom: 15px;
+        }
+
+        .file-info {
+            background: #1f2a3a;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .file-info.active {
+            display: flex;
+        }
+
+        .upload-form input,
+        .upload-form textarea,
+        .upload-form select {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            background: #1f2a3a;
+            border: 2px solid #4a6fa5;
+            border-radius: 50px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .upload-form input:focus,
+        .upload-form textarea:focus,
+        .upload-form select:focus {
+            border-color: #ffb347;
+            box-shadow: 0 0 15px rgba(255, 180, 70, 0.3);
+            outline: none;
+        }
+
+        .upload-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* ВСТРОЕННЫЕ ИГРЫ */
+        .games-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .game-box {
+            background: #1f2a3a;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #ffb347;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .game-box h3 {
+            color: #ffb347;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        /* ЗМЕЙКА */
+        .snake-game {
+            text-align: center;
+        }
+
+        #snakeCanvas {
+            border: 2px solid #ffb347;
+            border-radius: 10px;
+            background: #0a0c14;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(255, 180, 70, 0.3);
+        }
+
+        .score {
+            color: #ffb347;
+            font-size: 1.5rem;
+            margin: 15px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* КЛИКЕР */
+        .clicker-game {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .clicker-count {
+            font-size: 4rem;
+            color: #ffb347;
+            margin-bottom: 20px;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        .clicker-button {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffb347, #ff7f50);
+            border: 5px solid #fff;
+            cursor: pointer;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px rgba(255, 180, 70, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+            transition: 0.1s;
+        }
+
+        .clicker-button:active {
+            transform: scale(0.95);
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: #151e2c;
+            border-radius: 50px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 3px solid #ffb347;
+            animation: slideInUp 0.5s;
+        }
+
+        .modal-input, .modal-select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            background: #1f2a3a;
+            border: 2px solid #ffb347;
+            border-radius: 50px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .modal-input:focus,
+        .modal-select:focus {
+            border-color: #ff7f50;
+            box-shadow: 0 0 15px rgba(255, 180, 70, 0.3);
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: #ffb347;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Профиль */
+        .profile-sidebar {
+            position: fixed;
+            right: 30px;
+            top: 100px;
+            width: 300px;
+            z-index: 90;
+        }
+
+        .profile-card {
+            background: #1f2a3a;
+            border-radius: 30px;
+            padding: 30px;
+            border: 2px solid #ffb347;
+            text-align: center;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: #ffb347;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #0a0c14;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-role {
+            color: #ffb347;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            color: #ffb347;
+            font-weight: 700;
+        }
+
+        /* Футер */
+        .footer {
+            background: #151e2c;
+            border-top: 3px solid #ffb347;
+            padding: 40px 50px;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            animation: slideInUp 0.5s;
+        }
+
+        .footer-section h4 {
+            color: #ffb347;
+            margin-bottom: 20px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            color: #a0a8c0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-section p:hover {
+            color: #ffb347;
+            transform: translateX(10px);
+        }
+
+        .footer-section i {
+            width: 25px;
+            color: #ffb347;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffb347;
+            color: #0a0c14;
+            padding: 15px 30px;
+            border-radius: 50px;
+            z-index: 2000;
+            animation: slideInRight 0.3s, glow 2s infinite;
+        }
+
+        /* Сетки */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .moderation-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .mod-card {
+            background: #1f2a3a;
+            border-radius: 15px;
+            padding: 15px;
+            animation: slideInLeft 0.3s ease;
+        }
+
+        .mod-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rating-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rating-table tr {
+            border-bottom: 1px solid #2a3440;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .rating-table tr:hover {
+            background: #1f2a3a;
+        }
+
+        .rating-table td {
+            padding: 15px;
+        }
+
+        .rank-1 { color: gold; }
+        .rank-2 { color: silver; }
+        .rank-3 { color: #cd7f32; }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <div class="header">
+        <div class="logo" onclick="navigateTo('home')">
+            <i class="fas fa-chess-board"></i>
+            <h1>BlumSale Arcade</h1>
+        </div>
+        <div class="nav">
+            <a onclick="navigateTo('home')" class="nav-link active" data-page="home">Главная</a>
+            <a onclick="navigateTo('catalog')" class="nav-link" data-page="catalog">Каталог игр</a>
+            <a onclick="navigateTo('games')" class="nav-link" data-page="games">Встроенные игры</a>
+            <a onclick="navigateTo('ratings')" class="nav-link" data-page="ratings">Рейтинги</a>
+        </div>
+        <div class="auth-buttons" id="headerAuth"></div>
+    </div>
+
+    <div class="main-content">
+        <!-- Админ панель -->
+        <div id="adminPanel" style="display: none;">
+            <div class="panel admin-panel">
+                <h2 class="panel-title"><i class="fas fa-shield-alt"></i> Админ-панель</h2>
+                <div class="moderation-grid" id="moderationList"></div>
+            </div>
+        </div>
+
+        <!-- Панель разработчика -->
+        <div id="developerPanel" style="display: none;">
+            <div class="panel developer-panel">
+                <h2 class="panel-title"><i class="fas fa-upload"></i> Загрузить игру</h2>
+                
+                <div class="upload-area" id="fileUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Нажмите или перетащите файл игры</p>
+                    <small>Поддерживаются .html, .htm, .zip</small>
+                    <input type="file" id="gameFile" style="display: none;" accept=".html,.htm,.zip">
+                </div>
+
+                <div class="file-info" id="fileInfo">
+                    <i class="fas fa-file"></i>
+                    <div>
+                        <div id="fileName">Файл не выбран</div>
+                        <small id="fileSize">0 KB</small>
+                    </div>
+                </div>
+
+                <div class="upload-form">
+                    <input type="text" id="gameTitle" placeholder="Название игры">
+                    <textarea id="gameDesc" placeholder="Описание игры"></textarea>
+                    <select id="gameGenre">
+                        <option value="action">Экшен</option>
+                        <option value="rpg">RPG</option>
+                        <option value="strategy">Стратегия</option>
+                        <option value="platformer">Платформер</option>
+                        <option value="shooter">Шутер</option>
+                    </select>
+                    <button class="btn btn-primary" id="uploadBtn" disabled>Загрузить игру</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страницы -->
+        <div id="homePage" class="page active">
+            <div class="home-grid">
+                <!-- Новости -->
+                <div class="panel">
+                    <h2 class="panel-title"><i class="fas fa-newspaper"></i> Новости</h2>
+                    
+                    <div class="news-item" onclick="openNews(1)">
+                        <div class="news-date"><i class="far fa-calendar"></i> 14 февраля 2026</div>
+                        <div class="news-title">🎮 Фестиваль инди-игр BlumSale Fest 2026</div>
+                        <div class="news-preview">200+ новых игр, эксклюзивные демо-версии</div>
+                        <div class="news-meta">
+                            <span><i class="fas fa-eye"></i> 1,234</span>
+                            <span><i class="fas fa-heart"></i> 289</span>
+                        </div>
+                    </div>
+
+                    <div class="news-item" onclick="openNews(2)">
+                        <div class="news-date"><i class="far fa-calendar"></i> 13 февраля 2026</div>
+                        <div class="news-title">🚀 StarPath получил огромное обновление</div>
+                        <div class="news-preview">Новая звездная система и корабли</div>
+                        <div class="news-meta">
+                            <span><i class="fas fa-eye"></i> 856</span>
+                            <span><i class="fas fa-heart"></i> 156</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Популярные игры -->
+                <div class="panel">
+                    <h2 class="panel-title"><i class="fas fa-gamepad"></i> Популярные игры</h2>
+                    <div class="catalog-grid" id="homeGamesGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Каталог -->
+        <div id="catalogPage" class="page">
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-gamepad"></i> Все игры</h2>
+                <div class="catalog-grid" id="catalogGrid"></div>
+            </div>
+        </div>
+
+        <!-- ВСТРОЕННЫЕ ИГРЫ -->
+        <div id="gamesPage" class="page">
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-dice"></i> Встроенные игры</h2>
+                
+                <div class="games-container">
+                    <!-- Змейка -->
+                    <div class="game-box">
+                        <h3>🐍 Змейка</h3>
+                        <div class="snake-game">
+                            <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                            <div class="score">Счет: <span id="snakeScore">0</span></div>
+                            <div class="game-controls">
+                                <button class="btn btn-primary" onclick="startSnake()">Новая игра</button>
+                                <button class="btn" onclick="showNotification('Управление: стрелки на клавиатуре')">Управление</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Кликер -->
+                    <div class="game-box">
+                        <h3>🖱️ Кликер</h3>
+                        <div class="clicker-game">
+                            <div class="clicker-count" id="clickerCount">0</div>
+                            <div class="clicker-button" onclick="clickGame()"></div>
+                            <div class="game-controls">
+                                <button class="btn btn-primary" onclick="resetClicker()">Сбросить</button>
+                                <button class="btn" onclick="showNotification('Кликай по кнопке!')">Инфо</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Рейтинги -->
+        <div id="ratingsPage" class="page">
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-trophy"></i> Рейтинги</h2>
+                <table class="rating-table" id="ratingsTable"></table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Профиль -->
+    <div class="profile-sidebar">
+        <div class="profile-card">
+            <div class="profile-avatar" id="profileAvatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-name" id="profileName">Гость</div>
+            <div class="profile-role" id="profileRole">👤 Пользователь</div>
+            
+            <div id="profileStats" style="display: none;">
+                <div class="profile-stats">
+                    <div>
+                        <div class="stat-value" id="profileGames">0</div>
+                        <div>Игр</div>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="profileLikes">0</div>
+                        <div>Лайков</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profileAuth"></div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-section">
+            <h4>Контакты</h4>
+            <p onclick="copyText('Dushavolka1@gmail.com')"><i class="fas fa-envelope"></i> Dushavolka1@gmail.com</p>
+            <p onclick="copyText('79697673871')"><i class="fas fa-phone"></i> 79697673871</p>
+            <p onclick="copyText('@BlumSale_PF')"><i class="fab fa-telegram"></i> @BlumSale_PF</p>
+        </div>
+        <div class="footer-section">
+            <h4>Помощь</h4>
+            <p onclick="showNotification('❓ Часто задаваемые вопросы')">FAQ</p>
+            <p onclick="showNotification('📧 Написать в поддержку')">Поддержка</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="authModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <h2 id="modalTitle">Вход</h2>
+            
+            <input type="text" class="modal-input" id="modalName" placeholder="Имя">
+            <input type="password" class="modal-input" id="modalPass" placeholder="Пароль">
+            
+            <div id="roleSelect" style="display: none;">
+                <select class="modal-select" id="modalRole">
+                    <option value="player">Игрок</option>
+                    <option value="developer">Разработчик</option>
+                </select>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn" onclick="closeModal()">Отмена</button>
+                <button class="btn btn-primary" id="modalAction" onclick="handleAuth()">Войти</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ДАННЫЕ ==========
+        let currentUser = null;
+        let modalMode = 'login';
+        let selectedFile = null;
+        let snakeInterval = null;
+
+        // Загруженные игры (хранятся в localStorage)
+        let games = JSON.parse(localStorage.getItem('blumSale_games')) || [
+            { 
+                id: 1, 
+                title: 'CyberPulse', 
+                desc: 'Киберпанк экшен', 
+                genre: 'action', 
+                author: 'admin', 
+                likes: 128, 
+                plays: 2300, 
+                status: 'approved',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#ffb347;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial"><h1>🎮 CyberPulse 2077</h1><p>Демо-версия игры</p></body></html>'
+            },
+            { 
+                id: 2, 
+                title: 'Dragon\'s Quest', 
+                desc: 'RPG в фэнтези мире', 
+                genre: 'rpg', 
+                author: 'dev', 
+                likes: 89, 
+                plays: 1800, 
+                status: 'approved',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#4a6fa5;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial"><h1>🐉 Dragon\'s Quest</h1><p>Начать новое приключение</p></body></html>'
+            },
+            { 
+                id: 3, 
+                title: 'Space Rangers', 
+                desc: 'Космическая стратегия', 
+                genre: 'strategy', 
+                author: 'new_dev', 
+                likes: 45, 
+                plays: 900, 
+                status: 'pending',
+                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#28a745;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial"><h1>🚀 Space Rangers</h1><p>Запуск корабля...</p></body></html>'
+            }
+        ];
+
+        // ========== ЗМЕЙКА ==========
+        let snake = {
+            canvas: null,
+            ctx: null,
+            snake: [{x: 10, y: 10}],
+            food: {x: 15, y: 15},
+            direction: {x: 0, y: 0},
+            score: 0,
+            gameOver: false
+        };
+
+        function initSnake() {
+            snake.canvas = document.getElementById('snakeCanvas');
+            if (!snake.canvas) return;
+            snake.ctx = snake.canvas.getContext('2d');
+            
+            document.addEventListener('keydown', (e) => {
+                if (snake.gameOver) return;
+                
+                if (e.key.startsWith('Arrow')) e.preventDefault();
+                
+                if (e.key === 'ArrowUp' && snake.direction.y === 0) {
+                    snake.direction = {x: 0, y: -1};
+                } else if (e.key === 'ArrowDown' && snake.direction.y === 0) {
+                    snake.direction = {x: 0, y: 1};
+                } else if (e.key === 'ArrowLeft' && snake.direction.x === 0) {
+                    snake.direction = {x: -1, y: 0};
+                } else if (e.key === 'ArrowRight' && snake.direction.x === 0) {
+                    snake.direction = {x: 1, y: 0};
+                }
+            });
+            
+            startSnake();
+        }
+
+        function startSnake() {
+            if (snakeInterval) clearInterval(snakeInterval);
+            
+            snake.snake = [{x: 10, y: 10}];
+            snake.direction = {x: 0, y: 0};
+            snake.score = 0;
+            snake.gameOver = false;
+            document.getElementById('snakeScore').textContent = '0';
+            
+            do {
+                snake.food = {
+                    x: Math.floor(Math.random() * 20),
+                    y: Math.floor(Math.random() * 20)
+                };
+            } while (snake.snake[0].x === snake.food.x && snake.snake[0].y === snake.food.y);
+            
+            drawSnake();
+            snakeInterval = setInterval(updateSnake, 150);
+        }
+
+        function updateSnake() {
+            if (snake.gameOver) return;
+            
+            const head = {
+                x: snake.snake[0].x + snake.direction.x,
+                y: snake.snake[0].y + snake.direction.y
+            };
+            
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                snake.gameOver = true;
+                clearInterval(snakeInterval);
+                showNotification('💀 Игра окончена! Счет: ' + snake.score);
+                return;
+            }
+            
+            if (snake.snake.some(s => s.x === head.x && s.y === head.y)) {
+                snake.gameOver = true;
+                clearInterval(snakeInterval);
+                showNotification('💀 Игра окончена! Счет: ' + snake.score);
+                return;
+            }
+            
+            snake.snake.unshift(head);
+            
+            if (head.x === snake.food.x && head.y === snake.food.y) {
+                snake.score += 10;
+                document.getElementById('snakeScore').textContent = snake.score;
+                
+                do {
+                    snake.food = {
+                        x: Math.floor(Math.random() * 20),
+                        y: Math.floor(Math.random() * 20)
+                    };
+                } while (snake.snake.some(s => s.x === snake.food.x && s.y === snake.food.y));
+            } else {
+                snake.snake.pop();
+            }
+            
+            drawSnake();
+        }
+
+        function drawSnake() {
+            if (!snake.ctx) return;
+            
+            snake.ctx.fillStyle = '#0a0c14';
+            snake.ctx.fillRect(0, 0, 400, 400);
+            
+            snake.ctx.strokeStyle = '#1f2a3a';
+            for (let i = 0; i <= 20; i++) {
+                snake.ctx.beginPath();
+                snake.ctx.moveTo(i * 20, 0);
+                snake.ctx.lineTo(i * 20, 400);
+                snake.ctx.stroke();
+                
+                snake.ctx.beginPath();
+                snake.ctx.moveTo(0, i * 20);
+                snake.ctx.lineTo(400, i * 20);
+                snake.ctx.stroke();
+            }
+            
+            snake.snake.forEach((segment, i) => {
+                snake.ctx.fillStyle = i === 0 ? '#ffb347' : '#ff9f4d';
+                snake.ctx.fillRect(segment.x * 20 + 2, segment.y * 20 + 2, 16, 16);
+            });
+            
+            snake.ctx.fillStyle = '#ff6b6b';
+            snake.ctx.beginPath();
+            snake.ctx.arc(snake.food.x * 20 + 10, snake.food.y * 20 + 10, 8, 0, Math.PI * 2);
+            snake.ctx.fill();
+        }
+
+        // ========== КЛИКЕР ==========
+        let clickCount = 0;
+
+        function clickGame() {
+            if (!currentUser) {
+                showNotification('🔒 Войдите, чтобы играть');
+                openModal('login');
+                return;
+            }
+            
+            clickCount++;
+            document.getElementById('clickerCount').textContent = clickCount;
+            
+            if (clickCount % 10 === 0) {
+                showNotification('🎉 +10 кликов!');
+            }
+        }
+
+        function resetClicker() {
+            clickCount = 0;
+            document.getElementById('clickerCount').textContent = '0';
+            showNotification('🔄 Счет сброшен');
+        }
+
+        // ========== ЗАГРУЗКА ФАЙЛОВ ==========
+        function setupFileUpload() {
+            const area = document.getElementById('fileUploadArea');
+            const input = document.getElementById('gameFile');
+            const info = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (!area) return;
+
+            area.addEventListener('click', () => input.click());
+
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#ffb347';
+            });
+
+            area.addEventListener('dragleave', () => {
+                area.style.borderColor = '#4a6fa5';
+            });
+
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#4a6fa5';
+                if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+            });
+
+            input.addEventListener('change', (e) => {
+                if (e.target.files.length) handleFile(e.target.files[0]);
+            });
+
+            function handleFile(file) {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (!['html', 'htm', 'zip'].includes(ext)) {
+                    showNotification('❌ Поддерживаются только .html и .zip');
+                    return;
+                }
+
+                selectedFile = file;
+                fileName.textContent = file.name;
+                fileSize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+                info.classList.add('active');
+                uploadBtn.disabled = false;
+                showNotification(`✅ Файл "${file.name}" выбран`);
+            }
+
+            uploadBtn?.addEventListener('click', uploadGame);
+        }
+
+        function uploadGame() {
+            if (!currentUser || currentUser.role !== 'developer') {
+                showNotification('❌ Только разработчики могут загружать игры');
+                return;
+            }
+
+            const title = document.getElementById('gameTitle')?.value;
+            const desc = document.getElementById('gameDesc')?.value;
+            const genre = document.getElementById('gameGenre')?.value;
+
+            if (!title || !desc || !selectedFile) {
+                showNotification('❌ Заполните все поля');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const newGame = {
+                    id: Date.now(),
+                    title,
+                    desc,
+                    genre,
+                    fileContent: e.target.result,
+                    author: currentUser.name,
+                    likes: 0,
+                    plays: 0,
+                    status: 'pending'
+                };
+
+                games.push(newGame);
+                localStorage.setItem('blumSale_games', JSON.stringify(games));
+
+                document.getElementById('gameTitle').value = '';
+                document.getElementById('gameDesc').value = '';
+                document.getElementById('fileInfo').classList.remove('active');
+                selectedFile = null;
+                document.getElementById('uploadBtn').disabled = true;
+
+                showNotification(`✅ Игра "${title}" отправлена на модерацию`);
+                renderAll();
+            };
+
+            reader.readAsText(selectedFile);
+        }
+
+        // ========== ЗАПУСК ИГРЫ ==========
+        function playGame(id) {
+            const game = games.find(g => g.id === id);
+            if (!game) return;
+
+            if (!currentUser) {
+                showNotification('🔒 Войдите, чтобы играть');
+                openModal('login');
+                return;
+            }
+
+            if (game.status === 'pending' && currentUser.role !== 'moderator') {
+                showNotification('⏳ Игра на модерации');
+                return;
+            }
+
+            game.plays++;
+            localStorage.setItem('blumSale_games', JSON.stringify(games));
+
+            // Открываем игру в новом окне
+            const gameWindow = window.open('', '_blank');
+            gameWindow.document.write(game.fileContent);
+            gameWindow.document.title = game.title;
+        }
+
+        // ========== НАВИГАЦИЯ ==========
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) link.classList.add('active');
+            });
+            
+            if (page === 'games') {
+                setTimeout(initSnake, 100);
+            }
+        }
+
+        function openNews(id) {
+            showNotification(`📰 Новость #${id}`);
+        }
+
+        // ========== ОТОБРАЖЕНИЕ ==========
+        function renderAll() {
+            const approved = games.filter(g => g.status === 'approved');
+            
+            const homeGrid = document.getElementById('homeGamesGrid');
+            if (homeGrid) {
+                homeGrid.innerHTML = approved.slice(0, 4).map(game => `
+                    <div class="game-card" onclick="playGame(${game.id})">
+                        <div class="game-icon"><i class="fas fa-${game.genre === 'action' ? 'fist-raised' : game.genre === 'rpg' ? 'dragon' : 'chess-board'}"></i></div>
+                        <h4>${game.title}</h4>
+                        <div class="game-stats">
+                            <span><i class="fas fa-heart"></i> ${game.likes}</span>
+                            <span><i class="fas fa-play"></i> ${game.plays}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const catalogGrid = document.getElementById('catalogGrid');
+            if (catalogGrid) {
+                catalogGrid.innerHTML = approved.map(game => `
+                    <div class="game-card" onclick="playGame(${game.id})">
+                        <div class="game-icon"><i class="fas fa-${game.genre === 'action' ? 'fist-raised' : game.genre === 'rpg' ? 'dragon' : 'chess-board'}"></i></div>
+                        <h4>${game.title}</h4>
+                        <p><small>${game.author}</small></p>
+                        <div class="game-stats">
+                            <span><i class="fas fa-heart"></i> ${game.likes}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const sorted = [...approved].sort((a, b) => b.likes - a.likes).slice(0, 10);
+            const table = document.getElementById('ratingsTable');
+            if (table) {
+                table.innerHTML = sorted.map((game, i) => `
+                    <tr onclick="playGame(${game.id})">
+                        <td><span class="rank-${i+1}">${i+1}</span></td>
+                        <td>${game.title}</td>
+                        <td>${game.author}</td>
+                        <td>${game.likes} ❤️</td>
+                    </tr>
+                `).join('');
+            }
+
+            const modList = document.getElementById('moderationList');
+            if (modList) {
+                modList.innerHTML = games.map(game => `
+                    <div class="mod-card">
+                        <h4>${game.title}</h4>
+                        <p>${game.desc}</p>
+                        <p>Автор: ${game.author} | Статус: ${game.status === 'pending' ? '⏳ Ожидает' : '✅ Опубликовано'}</p>
+                        <div class="mod-actions">
+                            ${game.status === 'pending' ? 
+                                `<button class="btn btn-success" onclick="approveGame(${game.id})">✅ Одобрить</button>
+                                 <button class="btn btn-danger" onclick="rejectGame(${game.id})">❌ Отклонить</button>` : 
+                                `<button class="btn btn-danger" onclick="rejectGame(${game.id})">🗑️ Удалить</button>`
+                            }
+                            <button class="btn btn-warning" onclick="playGame(${game.id})">🎮 Тестировать</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function approveGame(id) {
+            const game = games.find(g => g.id === id);
+            if (game) {
+                game.status = 'approved';
+                localStorage.setItem('blumSale_games', JSON.stringify(games));
+                renderAll();
+                showNotification(`✅ Игра "${game.title}" опубликована`);
+            }
+        }
+
+        function rejectGame(id) {
+            if (confirm('Удалить игру?')) {
+                games = games.filter(g => g.id !== id);
+                localStorage.setItem('blumSale_games', JSON.stringify(games));
+                renderAll();
+                showNotification('🗑️ Игра удалена');
+            }
+        }
+
+        // ========== АВТОРИЗАЦИЯ ==========
+        function openModal(mode) {
+            modalMode = mode;
+            const modal = document.getElementById('authModal');
+            document.getElementById('modalTitle').textContent = mode === 'login' ? 'Вход' : 'Регистрация';
+            document.getElementById('modalAction').textContent = mode === 'login' ? 'Войти' : 'Зарегистрироваться';
+            document.getElementById('roleSelect').style.display = mode === 'login' ? 'none' : 'block';
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function handleAuth() {
+            const name = document.getElementById('modalName').value;
+            const pass = document.getElementById('modalPass').value;
+            const role = document.getElementById('modalRole')?.value || 'player';
+
+            if (!name || !pass) {
+                showNotification('❌ Заполните все поля');
+                return;
+            }
+
+            if (modalMode === 'login') {
+                if (name === 'admin' && pass === 'admin') {
+                    currentUser = { name: 'Админ', role: 'moderator' };
+                } else if (name === 'dev' && pass === 'dev') {
+                    currentUser = { name: 'Разработчик', role: 'developer' };
+                } else {
+                    currentUser = { name, role };
+                }
+                showNotification(`✅ Добро пожаловать, ${currentUser.name}!`);
+            } else {
+                currentUser = { name, role };
+                showNotification(`🎉 Аккаунт создан!`);
+            }
+
+            localStorage.setItem('blumSale_user', JSON.stringify(currentUser));
+            closeModal();
+            updateUI();
+            renderAll();
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('blumSale_user');
+            updateUI();
+            renderAll();
+            showNotification('👋 До свидания!');
+        }
+
+        function updateUI() {
+            const headerAuth = document.getElementById('headerAuth');
+            headerAuth.innerHTML = currentUser ? 
+                `<span style="color:#ffb347; margin-right:10px;">${currentUser.name}</span>
+                 <button class="btn" onclick="logout()">Выйти</button>` :
+                `<button class="btn" onclick="openModal('login')">Войти</button>
+                 <button class="btn btn-primary" onclick="openModal('register')">Регистрация</button>`;
+
+            document.getElementById('profileAvatar').innerHTML = currentUser ? 
+                '<i class="fas fa-user-circle"></i>' : '<i class="fas fa-user"></i>';
+            document.getElementById('profileName').textContent = currentUser?.name || 'Гость';
+            document.getElementById('profileRole').textContent = currentUser?.role === 'moderator' ? '🛡️ Модератор' : 
+                currentUser?.role === 'developer' ? '👨‍💻 Разработчик' : '👤 Пользователь';
+
+            if (currentUser) {
+                document.getElementById('profileStats').style.display = 'block';
+                const userGames = games.filter(g => g.author === currentUser.name).length;
+                const userLikes = games.filter(g => g.author === currentUser.name)
+                    .reduce((acc, g) => acc + g.likes, 0);
+                document.getElementById('profileGames').textContent = userGames;
+                document.getElementById('profileLikes').textContent = userLikes;
+            } else {
+                document.getElementById('profileStats').style.display = 'none';
+            }
+
+            document.getElementById('adminPanel').style.display = currentUser?.role === 'moderator' ? 'block' : 'none';
+            document.getElementById('developerPanel').style.display = currentUser?.role === 'developer' ? 'block' : 'none';
+
+            document.getElementById('profileAuth').innerHTML = currentUser ?
+                `<button class="btn" style="width:100%; margin-top:15px;" onclick="logout()">Выйти</button>` :
+                `<button class="btn" style="width:100%; margin-bottom:10px;" onclick="openModal('login')">Войти</button>
+                 <button class="btn btn-primary" style="width:100%;" onclick="openModal('register')">Регистрация</button>`;
+        }
+
+        // ========== УВЕДОМЛЕНИЯ ==========
+        function showNotification(msg) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = msg;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            showNotification(`✅ Скопировано: ${text}`);
+        }
+
+        // ========== ЗАПУСК ==========
+        updateUI();
+        renderAll();
+        setupFileUpload();
+        initSnake();
+    </script>
+</body>
+</html>
