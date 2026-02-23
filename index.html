@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>PlayVortex · Игровая платформа</title>
+    <title>PlayVortex · GitHub синхронизация</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
@@ -21,35 +21,11 @@
             flex-direction: column;
         }
 
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px #ffb347; }
-            50% { box-shadow: 0 0 15px #ffb347, 0 0 20px #ff7f50; }
-            100% { box-shadow: 0 0 5px #ffb347; }
-        }
-
         @keyframes slideInUp {
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .float { animation: float 3s ease-in-out infinite; }
-        .pulse { animation: pulse 2s ease-in-out infinite; }
-        .glow { animation: glow 3s ease-in-out infinite; }
-
-        /* ===== ШАПКА ===== */
         .header {
             background: #151e2c;
             border-bottom: 3px solid #ffb347;
@@ -94,8 +70,6 @@
             text-decoration: none;
             cursor: pointer;
             padding: 5px 10px;
-            font-size: 0.95rem;
-            transition: 0.2s;
         }
 
         .nav a:hover,
@@ -118,9 +92,7 @@
             color: white;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
             transition: 0.2s;
-            white-space: nowrap;
         }
 
         .btn:hover {
@@ -149,7 +121,6 @@
             font-size: 0.8rem;
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .main-content {
             flex: 1;
             max-width: 1200px;
@@ -158,7 +129,6 @@
             width: 100%;
         }
 
-        /* ===== ПАНЕЛИ ===== */
         .panel {
             background: #151e2c;
             border-radius: 20px;
@@ -179,7 +149,6 @@
             padding-bottom: 8px;
         }
 
-        /* ===== АДАПТИВНЫЕ СЕТКИ ===== */
         .home-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -210,7 +179,6 @@
             }
         }
 
-        /* ===== НОВОСТИ ===== */
         .news-item {
             background: #1f2a3a;
             border-radius: 15px;
@@ -218,11 +186,9 @@
             margin-bottom: 15px;
             border-left: 5px solid #ffb347;
             cursor: pointer;
-            transition: 0.2s;
         }
 
         .news-item:hover {
-            transform: translateX(5px);
             background: #253040;
         }
 
@@ -232,24 +198,11 @@
             margin-bottom: 5px;
         }
 
-        .news-title {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .news-preview {
-            color: #a0a8c0;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        /* ===== КАРТОЧКИ ИГР ===== */
         .game-card {
             background: #1f2a3a;
             border-radius: 15px;
             padding: 15px;
             cursor: pointer;
-            transition: 0.2s;
             text-align: center;
         }
 
@@ -264,25 +217,6 @@
             margin-bottom: 10px;
         }
 
-        .game-card h4 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .game-stats {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: #a0a8c0;
-        }
-
-        /* ===== ЗМЕЙКА ===== */
-        .snake-game {
-            text-align: center;
-        }
-
         #snakeCanvas {
             width: 100%;
             max-width: 400px;
@@ -291,8 +225,8 @@
             border: 2px solid #ffb347;
             border-radius: 10px;
             background: #0a0c14;
-            margin: 0 auto;
             display: block;
+            margin: 0 auto;
         }
 
         .score {
@@ -301,7 +235,6 @@
             margin: 10px 0;
         }
 
-        /* ===== КЛИКЕР ===== */
         .clicker-game {
             text-align: center;
             padding: 15px;
@@ -324,22 +257,8 @@
             background: radial-gradient(circle at 30% 30%, #ffb347, #ff7f50);
             border: 4px solid #fff;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 180, 70, 0.5);
         }
 
-        .clicker-button:active {
-            transform: scale(0.95);
-        }
-
-        .game-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        /* ===== ПРОФИЛЬ ===== */
         .profile-sidebar {
             position: fixed;
             right: 20px;
@@ -377,18 +296,6 @@
             color: #0a0c14;
         }
 
-        .profile-name {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-role {
-            color: #ffb347;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        /* ===== АДМИН ПАНЕЛЬ ===== */
         .admin-panel {
             border-color: #dc3545;
         }
@@ -412,7 +319,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== ЗАГРУЗКА ФАЙЛОВ ===== */
         .upload-area {
             background: #1f2a3a;
             border: 3px dashed #ffb347;
@@ -455,7 +361,6 @@
             color: white;
         }
 
-        /* ===== ФУТЕР ===== */
         .footer {
             background: #151e2c;
             border-top: 3px solid #ffb347;
@@ -481,7 +386,6 @@
             margin-bottom: 8px;
             color: #a0a8c0;
             cursor: pointer;
-            font-size: 0.9rem;
         }
 
         .footer-section i {
@@ -489,7 +393,6 @@
             color: #ffb347;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО (ПО ЦЕНТРУ) ===== */
         .modal {
             display: none;
             position: fixed;
@@ -517,33 +420,15 @@
             border: 3px solid #ffb347;
             animation: slideInUp 0.3s ease;
             position: relative;
-            margin: 0 auto;
         }
 
         .modal-content h2 {
             color: #ffb347;
             text-align: center;
             margin-bottom: 20px;
-            font-size: 1.8rem;
         }
 
-        .modal-input {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 10px 0;
-            background: #1f2a3a;
-            border: 2px solid #ffb347;
-            border-radius: 50px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .modal-input:focus {
-            outline: none;
-            border-color: #ff7f50;
-            box-shadow: 0 0 10px rgba(255, 180, 70, 0.5);
-        }
-
+        .modal-input,
         .modal-select {
             width: 100%;
             padding: 12px 20px;
@@ -552,24 +437,12 @@
             border: 2px solid #ffb347;
             border-radius: 50px;
             color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .modal-select option {
-            background: #1f2a3a;
         }
 
         .modal-buttons {
             display: flex;
             gap: 15px;
             margin-top: 25px;
-        }
-
-        .modal-buttons .btn {
-            flex: 1;
-            padding: 12px;
-            font-size: 1rem;
         }
 
         .close-modal {
@@ -579,22 +452,8 @@
             font-size: 2rem;
             color: #ffb347;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: 0.2s;
         }
 
-        .close-modal:hover {
-            background: rgba(255, 180, 70, 0.2);
-            transform: rotate(90deg);
-        }
-
-        /* ===== УВЕДОМЛЕНИЯ ===== */
         .notification {
             position: fixed;
             top: 20px;
@@ -605,11 +464,20 @@
             border-radius: 50px;
             z-index: 2000;
             animation: slideInUp 0.3s;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(255, 180, 70, 0.3);
         }
 
-        /* ===== СТРАНИЦЫ ===== */
+        .sync-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1f2a3a;
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid #ffb347;
+            font-size: 0.8rem;
+            z-index: 100;
+        }
+
         .page {
             display: none;
         }
@@ -620,7 +488,10 @@
     </style>
 </head>
 <body>
-    <!-- Шапка -->
+    <div class="sync-status" id="syncStatus">
+        <i class="fas fa-sync"></i> Синхронизация...
+    </div>
+
     <div class="header">
         <div class="logo" onclick="navigateTo('home')">
             <i class="fas fa-gamepad"></i>
@@ -635,7 +506,6 @@
     </div>
 
     <div class="main-content">
-        <!-- Админ панель -->
         <div id="adminPanel" style="display: none;">
             <div class="panel admin-panel">
                 <h2 class="panel-title"><i class="fas fa-shield-alt"></i> Админ-панель</h2>
@@ -643,7 +513,6 @@
             </div>
         </div>
 
-        <!-- Панель разработчика -->
         <div id="developerPanel" style="display: none;">
             <div class="panel">
                 <h2 class="panel-title"><i class="fas fa-upload"></i> Загрузить игру</h2>
@@ -673,7 +542,6 @@
             </div>
         </div>
 
-        <!-- Главная -->
         <div id="homePage" class="page active">
             <div class="home-grid">
                 <div class="panel">
@@ -681,12 +549,7 @@
                     <div class="news-item" onclick="showNotification('📰 Новость 1')">
                         <div class="news-date">14 февраля 2026</div>
                         <div class="news-title">🎮 Фестиваль инди-игр</div>
-                        <div class="news-preview">200+ новых игр, демо-версии</div>
-                    </div>
-                    <div class="news-item" onclick="showNotification('📰 Новость 2')">
-                        <div class="news-date">13 февраля 2026</div>
-                        <div class="news-title">🚀 Обновление StarPath</div>
-                        <div class="news-preview">Новая звездная система</div>
+                        <div class="news-preview">200+ новых игр</div>
                     </div>
                 </div>
                 <div class="panel">
@@ -696,7 +559,6 @@
             </div>
         </div>
 
-        <!-- Каталог -->
         <div id="catalogPage" class="page">
             <div class="panel">
                 <h2 class="panel-title"><i class="fas fa-gamepad"></i> Все игры</h2>
@@ -704,7 +566,6 @@
             </div>
         </div>
 
-        <!-- Мини-игры -->
         <div id="gamesPage" class="page">
             <div class="panel">
                 <h2 class="panel-title"><i class="fas fa-dice"></i> Мини-игры</h2>
@@ -717,7 +578,6 @@
                             <div class="score">Счет: <span id="snakeScore">0</span></div>
                             <div class="game-controls">
                                 <button class="btn btn-primary" onclick="startSnake()">Новая игра</button>
-                                <button class="btn" onclick="showNotification('Управление стрелками')">Управление</button>
                             </div>
                         </div>
                     </div>
@@ -728,7 +588,6 @@
                             <div class="clicker-button" onclick="clickGame()"></div>
                             <div class="game-controls">
                                 <button class="btn btn-primary" onclick="resetClicker()">Сброс</button>
-                                <button class="btn" onclick="showNotification('Кликай по кнопке')">Инфо</button>
                             </div>
                         </div>
                     </div>
@@ -737,7 +596,6 @@
         </div>
     </div>
 
-    <!-- Профиль -->
     <div class="profile-sidebar">
         <div class="profile-card">
             <div class="profile-avatar" id="profileAvatar">
@@ -749,7 +607,6 @@
         </div>
     </div>
 
-    <!-- Футер -->
     <footer class="footer">
         <div class="footer-section">
             <h4>Контакты</h4>
@@ -757,29 +614,20 @@
             <p onclick="copyText('79697673871')"><i class="fas fa-phone"></i> 79697673871</p>
             <p onclick="copyText('@BlumSale_PF')"><i class="fab fa-telegram"></i> @BlumSale_PF</p>
         </div>
-        <div class="footer-section">
-            <h4>Помощь</h4>
-            <p onclick="showNotification('❓ FAQ')">Частые вопросы</p>
-            <p onclick="showNotification('📧 Поддержка')">Написать нам</p>
-        </div>
     </footer>
 
-    <!-- МОДАЛЬНОЕ ОКНО (ПО ЦЕНТРУ) -->
     <div class="modal" id="authModal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
             <h2 id="modalTitle">Вход</h2>
-            
-            <input type="text" class="modal-input" id="modalName" placeholder="Имя пользователя">
+            <input type="text" class="modal-input" id="modalName" placeholder="Имя">
             <input type="password" class="modal-input" id="modalPass" placeholder="Пароль">
-            
             <div id="roleSelect" style="display: none;">
                 <select class="modal-select" id="modalRole">
                     <option value="player">Игрок</option>
                     <option value="developer">Разработчик</option>
                 </select>
             </div>
-            
             <div class="modal-buttons">
                 <button class="btn" onclick="closeModal()">Отмена</button>
                 <button class="btn btn-primary" id="modalAction" onclick="handleAuth()">Войти</button>
@@ -788,45 +636,120 @@
     </div>
 
     <script>
+        // ========== НАСТРОЙКИ GITHUB GIST ==========
+        // 🔧 ЗАМЕНИ ЭТИ ДАННЫЕ НА СВОИ 🔧
+        const GITHUB_CONFIG = {
+            // Токен GitHub (создай на https://github.com/settings/tokens)
+            token: 'ghp_your_github_token_here_replace_this',
+            
+            // ID твоего Gist (из URL после создания)
+            gistId: 'your_gist_id_here_replace_this',
+            
+            // Имя пользователя GitHub
+            username: 'your_github_username_replace_this'
+        };
+
+        // ========== РАБОТА С GITHUB GIST ==========
+        async function loadGames() {
+            try {
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-sync fa-spin"></i> Загрузка...';
+                
+                const response = await fetch(`https://api.github.com/gists/${GITHUB_CONFIG.gistId}`);
+                const data = await response.json();
+                
+                if (data.files && data.files['games.json']) {
+                    const content = data.files['games.json'].content;
+                    games = JSON.parse(content);
+                } else {
+                    // Если нет данных, создаем тестовые
+                    games = [
+                        { 
+                            id: 1, 
+                            title: 'CyberPulse', 
+                            genre: 'action', 
+                            author: 'admin', 
+                            likes: 128, 
+                            plays: 2300, 
+                            status: 'approved',
+                            fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#ffb347;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🎮 CyberPulse</h1></body></html>'
+                        },
+                        { 
+                            id: 2, 
+                            title: 'Dragon\'s Quest', 
+                            genre: 'rpg', 
+                            author: 'dev', 
+                            likes: 89, 
+                            plays: 1800, 
+                            status: 'approved',
+                            fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#4a6fa5;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🐉 Dragon\'s Quest</h1></body></html>'
+                        }
+                    ];
+                    await saveGames();
+                }
+                
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-check"></i> Синхронизировано';
+                setTimeout(() => {
+                    document.getElementById('syncStatus').style.opacity = '0.5';
+                }, 3000);
+                
+                renderAll();
+                
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка';
+                
+                // Загружаем из localStorage как запасной вариант
+                const saved = localStorage.getItem('playVortex_games');
+                games = saved ? JSON.parse(saved) : [];
+                renderAll();
+            }
+        }
+
+        async function saveGames() {
+            try {
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-sync fa-spin"></i> Сохранение...';
+                
+                const response = await fetch(`https://api.github.com/gists/${GITHUB_CONFIG.gistId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `token ${GITHUB_CONFIG.token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            'games.json': {
+                                content: JSON.stringify(games, null, 2)
+                            }
+                        }
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Ошибка сохранения');
+                
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-check"></i> Сохранено';
+                setTimeout(() => {
+                    document.getElementById('syncStatus').style.opacity = '0.5';
+                }, 3000);
+                
+                // Сохраняем локально как резервную копию
+                localStorage.setItem('playVortex_games', JSON.stringify(games));
+                
+            } catch (error) {
+                console.error('Ошибка сохранения:', error);
+                document.getElementById('syncStatus').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка';
+                
+                // Сохраняем хотя бы локально
+                localStorage.setItem('playVortex_games', JSON.stringify(games));
+            }
+        }
+
         // ========== ДАННЫЕ ==========
         let currentUser = null;
         let modalMode = 'login';
         let selectedFile = null;
         let snakeInterval = null;
         let clickCount = 0;
-
-        let games = JSON.parse(localStorage.getItem('playVortex_games')) || [
-            { 
-                id: 1, 
-                title: 'CyberPulse', 
-                genre: 'action', 
-                author: 'admin', 
-                likes: 128, 
-                plays: 2300, 
-                status: 'approved',
-                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#ffb347;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🎮 CyberPulse</h1></body></html>'
-            },
-            { 
-                id: 2, 
-                title: 'Dragon\'s Quest', 
-                genre: 'rpg', 
-                author: 'dev', 
-                likes: 89, 
-                plays: 1800, 
-                status: 'approved',
-                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#4a6fa5;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🐉 Dragon\'s Quest</h1></body></html>'
-            },
-            { 
-                id: 3, 
-                title: 'Space Rangers', 
-                genre: 'strategy', 
-                author: 'new_dev', 
-                likes: 45, 
-                plays: 900, 
-                status: 'pending',
-                fileContent: '<!DOCTYPE html><html><body style="background:#0a0c14;color:#28a745;display:flex;align-items:center;justify-content:center;height:100vh"><h1>🚀 Space Rangers</h1></body></html>'
-            }
-        ];
+        let games = [];
 
         // ========== ЗМЕЙКА ==========
         let snake = {
@@ -976,7 +899,7 @@
         }
 
         // ========== ЗАПУСК ИГРЫ ==========
-        function playGame(id) {
+        async function playGame(id) {
             const game = games.find(g => g.id === id);
             if (!game) return;
 
@@ -992,7 +915,7 @@
             }
 
             game.plays++;
-            localStorage.setItem('playVortex_games', JSON.stringify(games));
+            await saveGames();
 
             if (game.fileContent) {
                 const gameWindow = window.open('', '_blank');
@@ -1040,32 +963,34 @@
             document.getElementById('moderationList').innerHTML = games.map(game => `
                 <div class="mod-card">
                     <h4>${game.title}</h4>
-                    <p>Статус: ${game.status}</p>
+                    <p>Автор: ${game.author}</p>
+                    <p>Статус: ${game.status === 'pending' ? '⏳ Ожидает' : '✅ Опубликовано'}</p>
                     <div class="mod-actions">
                         ${game.status === 'pending' ? 
-                            `<button class="btn btn-success btn-small" onclick="approveGame(${game.id})">✅</button>
-                             <button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">❌</button>` : 
-                            `<button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">🗑️</button>`
+                            `<button class="btn btn-success btn-small" onclick="approveGame(${game.id})">✅ Одобрить</button>
+                             <button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">❌ Отклонить</button>` : 
+                            `<button class="btn btn-danger btn-small" onclick="rejectGame(${game.id})">🗑️ Удалить</button>`
                         }
-                        <button class="btn btn-primary btn-small" onclick="playGame(${game.id})">🎮</button>
+                        <button class="btn btn-primary btn-small" onclick="playGame(${game.id})">🎮 Тест</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function approveGame(id) {
+        // ========== МОДЕРАЦИЯ ==========
+        async function approveGame(id) {
             const game = games.find(g => g.id === id);
             if (game) {
                 game.status = 'approved';
-                localStorage.setItem('playVortex_games', JSON.stringify(games));
+                await saveGames();
                 renderAll();
                 showNotification('✅ Игра опубликована');
             }
         }
 
-        function rejectGame(id) {
+        async function rejectGame(id) {
             games = games.filter(g => g.id !== id);
-            localStorage.setItem('playVortex_games', JSON.stringify(games));
+            await saveGames();
             renderAll();
             showNotification('🗑️ Игра удалена');
         }
@@ -1091,7 +1016,7 @@
                 }
             });
 
-            uploadBtn?.addEventListener('click', () => {
+            uploadBtn?.addEventListener('click', async () => {
                 if (!currentUser || currentUser.role !== 'developer') {
                     showNotification('❌ Только разработчики могут загружать игры');
                     return;
@@ -1106,7 +1031,7 @@
                 }
 
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = async (e) => {
                     const newGame = {
                         id: Date.now(),
                         title,
@@ -1120,7 +1045,7 @@
                     };
 
                     games.push(newGame);
-                    localStorage.setItem('playVortex_games', JSON.stringify(games));
+                    await saveGames();
                     
                     document.getElementById('gameTitle').value = '';
                     document.getElementById('gameDesc').value = '';
@@ -1226,10 +1151,14 @@
         }
 
         // ========== ЗАПУСК ==========
-        updateUI();
-        renderAll();
-        setupFileUpload();
-        setTimeout(initSnake, 100);
+        async function init() {
+            updateUI();
+            await loadGames();
+            setupFileUpload();
+            setTimeout(initSnake, 100);
+        }
+
+        init();
     </script>
 </body>
 </html>
